@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Property List">
+        <div class="slds-m-around_medium">
+            <lightning-input type="number" label="Min Rent" name="minRent" value={minRent} onchange={handleFilterChange} required></lightning-input>
+            <lightning-input type="number" label="Max Rent" name="maxRent" value={maxRent} onchange={handleFilterChange}></lightning-input>
+            <lightning-combobox label="Availability Status" name="availabilityStatus"
+                options={availabilityOptions} value={availabilityStatus} onchange={handleFilterChange}></lightning-combobox>
+            <lightning-combobox label="Furnishing Status" name="furnishingStatus"
+                options={furnishingOptions} value={furnishingStatus} onchange={handleFilterChange}></lightning-combobox>
+            <lightning-input type="number" label="Max Distance (km)" name="maxDistance" value={maxDistance} onchange={handleFilterChange}></lightning-input>
+        </div>
+
+        <lightning-datatable key-field="Id" data={properties} columns={columns}></lightning-datatable>
+
+        <div class="slds-m-around_medium">
+            <lightning-button label="Previous" onclick={handlePrevPage} disabled={isFirstPage}></lightning-button>
+            <span class="slds-m-horizontal_small">Page {pageNumber} of {totalPages}</span>
+            <lightning-button label="Next" onclick={handleNextPage} disabled={isLastPage}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
