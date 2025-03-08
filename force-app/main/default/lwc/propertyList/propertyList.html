@@ -1,14 +1,31 @@
 <template>
-    <lightning-card title="Property List">
-        <div class="slds-m-around_medium">
-            <lightning-input type="number" label="Min Rent" name="minRent" value={minRent} onchange={handleFilterChange} required></lightning-input>
-            <lightning-input type="number" label="Max Rent" name="maxRent" value={maxRent} onchange={handleFilterChange}></lightning-input>
-            <lightning-combobox label="Availability Status" name="availabilityStatus"
-                options={availabilityOptions} value={availabilityStatus} onchange={handleFilterChange}></lightning-combobox>
-            <lightning-combobox label="Furnishing Status" name="furnishingStatus"
-                options={furnishingOptions} value={furnishingStatus} onchange={handleFilterChange}></lightning-combobox>
-            <lightning-input type="number" label="Max Distance (km)" name="maxDistance" value={maxDistance} onchange={handleFilterChange}></lightning-input>
-        </div>
+    <lightning-card>
+        
+        <lightning-button-icon icon-name="utility:filterList" alternative-text="Show Filters" variant="border-filled"
+         class="slds-m-right_small" onclick={toggleFilters}></lightning-button-icon>
+         <template if:true={showFilters}>
+            <section class="slds-popover slds-nubbin_top-left filter-popover" role="dialog"
+            style="position: absolute; top: 70px; left: 0; 
+            z-index: 1000; background: white; border: 1px solid #d8dde6; 
+            border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); padding: 15px;">
+                <lightning-button-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"
+                class="slds-m-right_small" onclick={toggleFilters}></lightning-button-icon>
+                <div class="slds-popover__body">
+                    <lightning-input type="decimal" label="Min Rent" data-field-name="minRent" value={minRent} onchange={handleChange} required></lightning-input>
+                    <lightning-input type="decimal" label="Max Rent" data-field-name="maxRent" value={maxRent} onchange={handleChange}></lightning-input>
+                    <lightning-combobox label="Availability Status" data-field-name="availabilityStatus"
+                        options={availabilityOptions} value={availabilityStatus} onchange={handleChange}></lightning-combobox>
+                    <lightning-combobox label="Furnishing Status" data-field-name="furnishingStatus"
+                        options={furnishingOptions} value={furnishingStatus} onchange={handleChange}></lightning-combobox>
+                    <lightning-input type="number" label="Max Distance (km)" data-field-name="maxDistance" value={maxDistance} onchange={handleChange}></lightning-input>
+                    <div class="slds-m-top_medium slds-grid slds-grid_align-spread">
+                        <lightning-button label="Apply Filters" variant="brand" onclick={applyFilter}></lightning-button>
+                        <lightning-button label="Reset" variant="neutral" onclick={resetFilters}></lightning-button>
+                    </div>
+                </div>
+            </section>
+         </template>
+        
 
         <lightning-datatable key-field="Id" data={properties} columns={columns}></lightning-datatable>
 

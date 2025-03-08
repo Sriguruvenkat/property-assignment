@@ -4,6 +4,7 @@ import getTotalProperties from '@salesforce/apex/PropertyListController.getTotal
 
 export default class PropertyList extends LightningElement {
     properties=[];
+    showFilters=false;
     totalRecords=0;
     pageNumber=1;
     pageSize=25;
@@ -20,14 +21,16 @@ export default class PropertyList extends LightningElement {
 
 
     minRent=0;
-    maxRent=100000;
+    maxRent=null;
     availabilityStatus='';
     furnishingStatus='';
     availabilityOptions=[
+        {label:'--None--',value:''},
         {label:'Occupied',value:'Occupied'},
         {label:'Available',value:'Available'}
     ];
     furnishingOptions=[
+        {label:'--None--',value:''},
         {label:'Furnished',value:'Furnished'},
         {label:'Semi-Furnished',value:'Semi-Furnished'},
         {label:'Unfurnished',value:'Unfurnished'}
@@ -57,6 +60,8 @@ export default class PropertyList extends LightningElement {
             furnishingStatus:this.furnishingStatus,userLat:this.userLat,userLong:this.userLong})
             .then(result=>{
                 this.properties=result;
+                console.log('properties',this.properties);
+                console.log('Result Length',this.properties.length);
             })
             .catch(error=>{
                 console.error('Error fetching properties:',error);
@@ -66,11 +71,39 @@ export default class PropertyList extends LightningElement {
     
     }
 
-    handleFilterChange(event){
-        const {name,value}=event.target;
-        this[name]=value;
-        console.log(this[name]);
-        this.pageNumber=1;
+    handleChange(event){
+        console.log('Field value',event.detail.value);
+        console.log('Event',event.target.dataset.fieldName)
+        const field=event.target.dataset.fieldName;
+        if(field=='availabilityStatus'){
+            this.availabilityStatus=event.detail.value;
+        }
+        else if(field=='furnishingStatus'){
+            this.furnishingStatus=event.detail.value;
+        }
+        else if(field=='minRent'){
+            this.minRent=event.detail.value;
+        }
+        else if(field=='maxRent'){
+            this.maxRent=event.detail.value;
+            console.log('Length',this.maxRent.length);
+            if(this.maxRent.length==0){
+                this.maxRent=null;
+            }
+        }
+    }
+
+    toggleFilters(){
+        this.showFilters= !this.showFilters;
+    }
+
+    resetFilters(){
+        this.minRent=0;
+        this.maxRent=null;
+        this.availabilityStatus='';
+        this.furnishingStatus='';
+    }
+    applyFilter(){
         this.fetchProperties();
     }
 
