@@ -1,6 +1,5 @@
 import { LightningElement } from 'lwc';
 import getProperties from '@salesforce/apex/PropertyListController.getProperties';
-import getTotalProperties from '@salesforce/apex/PropertyListController.getTotalProperties';
 
 export default class PropertyList extends LightningElement {
     properties=[];
@@ -44,18 +43,6 @@ export default class PropertyList extends LightningElement {
     }
 
     fetchProperties(){
-        getTotalProperties({
-            userLat:this.userLat,userLong:this.userLong,maxDistance:this.maxDistance,minRent:this.minRent,maxRent:this.maxRent,
-            availabilityStatus:this.availabilityStatus,furnishingStatus:this.furnishingStatus})
-            .then(result=>{
-                this.totalRecords=result;
-                this.totalPages=Math.ceil(this.totalRecords/this.pageSize);
-            })
-            .catch(error=>{
-                console.error('Error fetching total property count:',error);
-                console.error('Error Message:',error.body.message);
-            })
-            
         getProperties({pageNumber:this.pageNumber,pageSize:this.pageSize,minRent:this.minRent,maxRent:this.maxRent,status:this.availabilityStatus,
             furnishingStatus:this.furnishingStatus,userLat:this.userLat,userLong:this.userLong})
             .then(result=>{

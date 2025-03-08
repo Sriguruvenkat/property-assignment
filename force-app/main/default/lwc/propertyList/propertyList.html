@@ -1,8 +1,8 @@
 <template>
     <lightning-card>
-        
         <lightning-button-icon icon-name="utility:filterList" alternative-text="Show Filters" variant="border-filled"
          class="slds-m-right_small" onclick={toggleFilters}></lightning-button-icon>
+         <c-create-property class="slds-float_right"></c-create-property>
          <template if:true={showFilters}>
             <section class="slds-popover slds-nubbin_top-left filter-popover" role="dialog"
             style="position: absolute; top: 70px; left: 0; 
