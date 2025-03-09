@@ -31,4 +31,17 @@ public with sharing class PropertyListController {
         System.debug('Final Query: ' + query);
         return Database.query(query);
     }
+
+    @AuraEnabled(cacheable=true)
+    public static Map<String,Double> getPropertyGeolocation(Id propertyId){
+        Property__c property=[select Id,Address1__c,Address1__r.Latitude,Address1__r.Longitude FROM Property__c where Id=:propertyId LIMIT 1];
+
+        if(property.Address1__c !=null){
+            return new Map<String,Double>{
+                'latitude'=>property.Address1__r.Latitude,
+                'longitude'=>property.Address1__r.Longitude
+            };
+        }
+        return null;
+    }
 }

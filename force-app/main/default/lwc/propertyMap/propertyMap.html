@@ -1,0 +1,12 @@
+<template>
+    <lightning-card>
+        <template if:true={isMapAvailable}>
+            <lighnting-map map-markers={mapMarkers} zoom-level="15"></lighnting-map>
+        </template>
+        <template if:false={isMapAvailable}>
+            <p style="color:red; font-weight:bold; text-align:center;padding:10px;">
+                Map is not available. No geolocation data found for this property.
+            </p>
+        </template>
+    </lightning-card>
+</template>
