@@ -37,19 +37,14 @@ public class PropertyTriggerHandler {
             Integer ct=[Select COUNT() from Maintenance_Requests__c where Vendor__c=:ven.Id];
             venMap.put(ven.Name,ct);
         }
-        system.debug(venMap);
         List<Integer> intList=venMap.values();
-        system.debug('Int List'+intList);
         intList.sort();
-        system.debug('sorted list'+intList);
-        system.debug('Smallest value'+intList[0]);
         String availableVendor;
         for(String key:venMap.keySet()){
             if(venMap.get(key)==intList[0]){
                 availableVendor=key;
             }
         }
-        system.debug('Available vendor '+availableVendor);
         Vendor__c ava=[Select Id from Vendor__c where Name=:availableVendor LIMIT 1];
         system.debug(ava.Id);
 

@@ -25,6 +25,9 @@ public with sharing class PropertyListController {
             query += ' WHERE ' + String.join(filters, ' AND ');
         }
 
+        Integer offset=((pageNumber-1)*pageSize);
+        query += ' LIMIT :pageSize OFFSET :offset';
+        
         System.debug('Final Query: ' + query);
         return Database.query(query);
     }

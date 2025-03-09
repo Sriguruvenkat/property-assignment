@@ -6,7 +6,12 @@ export default class Tenant extends NavigationMixin(LightningElement) {
     tenants=[];
     error;
     columns=[
-        {label:'Tenant Name',fieldName:'Name'},
+        {label:'Tenant Name',fieldName:'recordLink',type:'url',
+            typeAttributes:{
+                label:{fieldName:'Name'},
+                type:'_self'
+            }
+        },
         {label:'Email',fieldName:'Email__c'},
         {label:'Phone Number',fieldName:'Phone_Number__c'}
     ];
@@ -14,7 +19,10 @@ export default class Tenant extends NavigationMixin(LightningElement) {
     @wire(getTenants)
         wiredTenants({data,error}){
             if(data){
-                this.tenants=data;
+                this.tenants=data.map(ten=>({
+                    ...ten,
+                    recordLink:`/lightning/r/Tenant__c/${ten.Id}/view`
+                }));
             }
             else if(error){
                 this.error=error;

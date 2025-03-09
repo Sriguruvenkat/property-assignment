@@ -9,7 +9,11 @@ export default class PropertyList extends LightningElement {
     pageSize=25;
     totalPages=1;
     columns=[
-        {label:'Property Name',fieldName:'Name'},
+        {label:'Property Name',fieldName:'recordLink',type:'url',
+            typeAttributes:{
+                label:{fieldName:'Name'},
+                target:'_self'
+        }},
         {label:'Address',fieldName:'Address__c'},
         {label:'City',fieldName:'City__c'},
         {label:'State',fieldName:'State__c'},
@@ -46,7 +50,10 @@ export default class PropertyList extends LightningElement {
         getProperties({pageNumber:this.pageNumber,pageSize:this.pageSize,minRent:this.minRent,maxRent:this.maxRent,status:this.availabilityStatus,
             furnishingStatus:this.furnishingStatus,userLat:this.userLat,userLong:this.userLong})
             .then(result=>{
-                this.properties=result;
+                this.properties=result.map(prop=>({
+                    ...prop,
+                    recordLink:`/lightning/r/Property__c/${prop.Id}/view`
+                }));
                 console.log('properties',this.properties);
                 console.log('Result Length',this.properties.length);
             })
