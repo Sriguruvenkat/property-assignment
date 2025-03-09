@@ -1,3 +1,16 @@
 <template>
-    <h1>Tenants!!</h1>
-</template>
+    <lightning-card>
+        <div class="slds-grid slds-grid_align-end slds-m-bottom_small">
+            <lightning-button name="new-tenant-record" label="Create Tenant" 
+                class="slds-m-right_small" onclick={navigateToNewTenant}>
+            </lightning-button>
+        </div>
+
+        <template if:true={tenants}>
+            <lightning-datatable key-field="Id" data={tenants} columns={columns} ></lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error"></p>
+        </template>
+    </lightning-card>
+ </template>
