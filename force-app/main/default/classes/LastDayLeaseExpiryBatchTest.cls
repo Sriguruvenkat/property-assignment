@@ -5,7 +5,7 @@ public class LastDayLeaseExpiryBatchTest {
     public static void testMonthlyLeaseExpiryBatch() {
         // Query existing Lease_Agreement__c records with End_Date__c set to 30 days from today
         List<Lease_Agreement__c> leaseAgreements = [
-            SELECT Id, Name, End_Date__c, Tenant__r.Email__c, Tenant__r.Name 
+            SELECT Id, Name,Terms__c, End_Date__c, Tenant__r.Email__c, Tenant__r.Name 
             FROM Lease_Agreement__c 
             WHERE End_Date__c = :System.today().addDays(1) 
             AND Tenant__r.Email__c != NULL

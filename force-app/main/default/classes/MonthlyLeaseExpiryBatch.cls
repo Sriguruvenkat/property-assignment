@@ -6,7 +6,7 @@ global class MonthlyLeaseExpiryBatch implements Database.Batchable<SObject>,Sche
 
     global Database.QueryLocator start(Database.BatchableContext context) {
         return Database.getQueryLocator([
-            SELECT Id, Name, End_Date__c, Tenant__r.Email__c, Tenant__r.Name 
+            SELECT Id, Name,Terms__c, End_Date__c, Tenant__r.Email__c, Tenant__r.Name 
             FROM Lease_Agreement__c 
             WHERE End_Date__c = :System.today().addDays(30) 
             AND Tenant__r.Email__c != NULL
@@ -20,7 +20,7 @@ global class MonthlyLeaseExpiryBatch implements Database.Batchable<SObject>,Sche
             email.setSubject('Lease Expiry Reminder for ' + lease.Tenant__r.Name);
             
             String emailBody = 'Dear ' + lease.Tenant__r.Name + ',<br/><br/>' +
-                               'Your lease agreement "' + lease.Name + '" is set to expire on ' + lease.End_Date__c + '.<br/>' +
+                               'Your lease agreement "' + lease.Terms__c + '" is set to expire on ' + lease.End_Date__c + '.<br/>' +
                                'Please take the necessary action to renew or close the agreement.<br/><br/>' +
                                'Thank you,<br/>Real Estate Management Team';
             
