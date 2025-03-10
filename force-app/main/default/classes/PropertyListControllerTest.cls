@@ -35,4 +35,15 @@ private class PropertyListControllerTest {
         
         System.assertEquals(null, geolocation, 'Expected null geolocation for property without address');
     }
+
+    @isTest(seeAllData=true)
+    static void testLeaseAgreementController() {
+        Lease_Agreement__c expected = [SELECT Id,Name, Terms__c, Tenant__r.Name,Start_Date__c,End_Date__c,Agreed_Monthly_Rent__c FROM Lease_Agreement__c LIMIT 1];
+        
+        Test.startTest();
+        Lease_Agreement__c result= PropertyListController.getLeaseAgreementController(expected.Id);
+        Test.stopTest();
+        
+        System.assertEquals(expected.Name,result.Name);
+    }
 }

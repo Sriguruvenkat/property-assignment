@@ -44,4 +44,9 @@ public with sharing class PropertyListController {
         }
         return null;
     }
+
+    @AuraEnabled
+	public static Lease_Agreement__c getLeaseAgreementController(Id leaseId){
+		return [SELECT Id,Name,Terms__c, Tenant__r.Name,Start_Date__c,End_Date__c,Agreed_Monthly_Rent__c FROM Lease_Agreement__c Where Id=:leaseId LIMIT 1];
+	}
 }
